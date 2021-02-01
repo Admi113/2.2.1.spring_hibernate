@@ -25,11 +25,12 @@ public class MainApp {
 
 
         UserService userService = context.getBean(UserService.class);
-       userService.FindUserByCarModelAndSeries("ferrari1",11);
-//        Car car = new Car("ferrari1");
-//        User user = new User("User1", "Lastname1", "user1@mail.ru",car);
-//        userService.add(user);
+        userService.FindUserByCarModelAndSeries("ferrari12", 13);
 
+//        UserService userService = context.getBean(UserService.class);
+//        Car car = new Car("ferrari12");
+//        User user = new User("User12", "Lastname1", "user1@mail.ru",car);
+//        userService.add(user);
 
 
 //        List<User> users = userService.listUsers();
