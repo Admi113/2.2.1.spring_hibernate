@@ -29,25 +29,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void FindUserByCarModelAndSeries(String model, int series) {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(AppConfig.class);
-        Session session = context.getBean(SessionFactory.class).openSession();
-
-        String hqlCar =
-                "from User pr1 " +
-                "where pr1.car.model =  :model" +
-                "  and pr1.car.series = :series";
-
-        Query query = session.createQuery(hqlCar);
-        query.setParameter("model", model);
-        query.setParameter("series", series);
-        session.beginTransaction();
-        User user = (User) query.getSingleResult();
-        session.getTransaction().commit();
-        session.close();
-        context.close();
-        System.out.println(user);
-
+        userDao.FindUserByCarModelAndSeries(model, series);
     }
 
 

@@ -25,7 +25,7 @@ public class MainApp {
 
 
         UserService userService = context.getBean(UserService.class);
-        userService.FindUserByCarModelAndSeries("ferrari12", 13);
+        userService.FindUserByCarModelAndSeries("ferrari12", 1);
 
 //        UserService userService = context.getBean(UserService.class);
 //        Car car = new Car("ferrari12");
