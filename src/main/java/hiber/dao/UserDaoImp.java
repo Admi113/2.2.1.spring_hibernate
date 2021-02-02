@@ -16,41 +16,47 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao {
 
-   @Autowired
-   private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
-   @Override
-   public void add(User user) {
-      sessionFactory.getCurrentSession().save(user);
-   }
+    @Override
+    public void add(User user) {
+        sessionFactory.getCurrentSession().save(user);
+    }
 
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<User> listUsers() {
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
+        return query.getResultList();
+    }
 
-   @Override
-   @SuppressWarnings("unchecked")
-   public List<User> listUsers() {
-      TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("from User");
-      return query.getResultList();
-   }
+    @Override
+    public void FindUserByCarModelAndSeries(String model, int series) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
 
-   @Override
-   public void FindUserByCarModelAndSeries(String model, int series) {
-      Session session =sessionFactory.getCurrentSession();
+            String hqlCar =
+                    "from User pr1 " +
+                            "where pr1.car.model =  :model" +
+                            "  and pr1.car.series = :series";
 
-      String hqlCar =
-              "from User pr1 " +
-                      "where pr1.car.model =  :model" +
-                      "  and pr1.car.series = :series";
+            Query query = session.createQuery(hqlCar);
+            query.setParameter("model", model);
+            query.setParameter("series", series);
+            session.beginTransaction();
+            User user = (User) query.getSingleResult();
+            session.getTransaction().commit();
+            System.out.println(user);
 
-      Query query = session.createQuery(hqlCar);
-      query.setParameter("model", model);
-      query.setParameter("series", series);
-//      session.beginTransaction();
-      User user = (User) query.getSingleResult();
-//      session.getTransaction().commit();
-//      session.close();
-      System.out.println(user);
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
 
-   }
+    }
 
 }
